@@ -88,3 +88,10 @@ export const addRemoveFriend = catchAsync(async (req, res) => {
     );
     res.status(200).json({ friends: formatedFriends });
 });
+
+export const updateUser=catchAsync(async (req,res,next) =>{
+    const {id}=req.params 
+    if(req.body.password) return next(new ApiError("user can't update password here",409))
+    const updatedUser=await User.findByIdAndUpdate({_id:id},req.body,{new:true})
+    res.status(200).json(updatedUser)
+}) 
